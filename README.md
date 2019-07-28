@@ -1,7 +1,7 @@
 # Tic Tac Yew
 Tic-tac-toe project implemented with the Yew framework for Rust.
 
-# About
+## About
 This is just a personal project for teaching myself how to use
 [DenisKolodin's Yew framework](https://github.com/DenisKolodin/yew).
 
