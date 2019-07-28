@@ -1,5 +1,9 @@
-# tic-tac-yew
-Tic-tac-toe project implemented with Rust's Yew crate.
+# Tic Tac Yew
+Tic-tac-toe project implemented with the Yew framework for Rust.
+
+# About
+This is just a personal project for teaching myself how to use
+[DenisKolodin's Yew framework](https://github.com/DenisKolodin/yew).
 
 ## License
 Dual-licensed to be compatible with the Rust project.
