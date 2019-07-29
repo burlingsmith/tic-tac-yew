@@ -1,9 +1,11 @@
-# Tic Tac Yew
-Tic-tac-toe project implemented with the Yew framework for Rust.
+# Tic-Tac-Yew
+Tic-tac-toe project implemented with the Yew framework for Rust, then used to
+teach A.I. how to play.
 
 ## About
 This is just a personal project for teaching myself how to use
-[DenisKolodin's Yew framework](https://github.com/DenisKolodin/yew).
+[DenisKolodin's Yew framework](https://github.com/DenisKolodin/yew) and
+[TensorFlow Rust](https://github.com/tensorflow/rust).
 
 ## License
 Dual-licensed to be compatible with the Rust project.
