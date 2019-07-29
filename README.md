@@ -1,6 +1,5 @@
 # Tic-Tac-Yew
-Tic-tac-toe project implemented with the Yew framework for Rust, then used to
-teach A.I. how to play.
+Tic-tac-toe project implemented with the Yew framework for Rust.
 
 ## About
 This is just a personal project for teaching myself how to use
