@@ -65,13 +65,15 @@ impl GameState {
             self.board.values[col][row] = Some(self.turn);
             self.turn = self.turn.other();
 
-            if self.board.is_full() {
-                match self.board.winner() {
-                    None => MoveOutcome::Draw,
-                    Some(player) => MoveOutcome::Win(player),
+            match self.board.winner() {
+                None => {
+                    if self.board.is_full() {
+                        MoveOutcome::Draw
+                    } else {
+                        MoveOutcome::Switch
+                    }
                 }
-            } else {
-                MoveOutcome::Switch
+                Some(player) => MoveOutcome::Win(player),
             }
         } else {
             MoveOutcome::NoChange
