@@ -1,4 +1,4 @@
-//! 3x3 tic-tac-toe grid and associated methods.
+//! Tic-tac-toe board and associated methods.
 
 use super::*;
 
@@ -13,7 +13,7 @@ pub type Position = (usize, usize);
 // Primary Structure
 //////////////////////////////////////////////////////////////////////////////
 
-/// 3x3 tic-tac-toe board.
+/// Tic-tac-toe board.
 #[derive(Debug)]
 pub(crate) struct Board {
     pub(crate) values: [[Option<Player>; 3]; 3],
