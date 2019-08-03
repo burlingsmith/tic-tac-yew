@@ -112,17 +112,45 @@ mod tests {
     fn test_fast_win_for_x() {
         let mut game = GameState::new();
         let plays = [
-            (0, 0),
-            (1, 0),
+            (0, 0),             // X
+                    (1, 0),     // O
             (0, 1),
-            (1, 1),
+                    (1, 1),
             (0, 2),
         ];
+
+        //  X   O   .
+        //  X   O   .
+        //  X   .   .
 
         assert_eq!(game.play(plays[0]), MoveOutcome::Switch);
         assert_eq!(game.play(plays[1]), MoveOutcome::Switch);
         assert_eq!(game.play(plays[2]), MoveOutcome::Switch);
         assert_eq!(game.play(plays[3]), MoveOutcome::Switch);
         assert_eq!(game.play(plays[4]), MoveOutcome::Win(Player::X));
+    }
+
+    #[test]
+    fn test_fast_win_for_o() {
+        let mut game = GameState::new();
+        let plays = [
+            (0, 0),             // X
+                    (1, 0),     // O
+            (0, 1),
+                    (1, 1),
+            (2, 2),
+                    (1, 2),
+        ];
+
+        //  X   O   .
+        //  X   O   .
+        //  .   O   X
+
+        assert_eq!(game.play(plays[0]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[1]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[2]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[3]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[4]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[5]), MoveOutcome::Win(Player::O));
     }
 }
