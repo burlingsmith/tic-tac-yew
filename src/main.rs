@@ -51,6 +51,10 @@ struct GameState {
 }
 
 impl GameState {
+    //////////////////////////////////
+    // Instantiation
+    //////////////////////////////////
+
     /// Setup a new game, with X going first.
     pub fn new() -> Self {
         Self {
@@ -59,17 +63,21 @@ impl GameState {
         }
     }
 
+    //////////////////////////////////
+    // Interaction
+    //////////////////////////////////
+
     /// Attempt to make a move on the current board.
     pub fn play(&mut self, (col, row): Position) -> MoveOutcome {
         if col < 3 && row < 3 && self.board.values[col][row].is_none() {
             self.board.values[col][row] = Some(self.turn);
-            self.turn = self.turn.other();
 
             match self.board.winner() {
                 None => {
                     if self.board.is_full() {
                         MoveOutcome::Draw
                     } else {
+                        self.turn = self.turn.other();
                         MoveOutcome::Switch
                     }
                 }
@@ -182,5 +190,115 @@ mod tests {
         assert_eq!(game.play(plays[6]), MoveOutcome::Switch);
         assert_eq!(game.play(plays[7]), MoveOutcome::Switch);
         assert_eq!(game.play(plays[8]), MoveOutcome::Draw);
+    }
+
+    #[test]
+    fn test_invalid_plays_ending_in_win_for_x() {
+        let mut game = GameState::new();
+        let plays = [
+            (3, 0),             // X
+            (0, 3),
+            (0, 0),
+                    (1, 0),     // O
+            (1, 0),
+            (0, 0),
+            (0, 1),
+                    (1, 1),
+            (0, 2),
+        ];
+
+        //  X   O   .
+        //  X   O   .
+        //  X   .   .
+
+        assert_eq!(game.play(plays[0]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[1]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[2]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[3]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[4]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[5]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[6]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[7]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[8]), MoveOutcome::Win(Player::X));
+    }
+
+    #[test]
+    fn test_invalid_plays_ending_in_win_for_o() {
+        let mut game = GameState::new();
+        let plays = [
+            (0, 0),             // X
+                    (3, 0),     // O
+                    (0, 3),
+                    (1, 0),
+            (0, 1),
+                    (0, 1),
+                    (1, 0),
+                    (1, 1),
+            (2, 2),
+                    (1, 2),
+        ];
+
+        //  X   O   .
+        //  X   O   .
+        //  .   O   X
+
+        assert_eq!(game.play(plays[0]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[1]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[2]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[3]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[4]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[5]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[6]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[7]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[8]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[9]), MoveOutcome::Win(Player::O));
+    }
+
+    #[test]
+    fn test_invalid_plays_ending_in_draw() {
+        let mut game = GameState::new();
+        let plays = [
+            (3, 3),             // X
+            (0, 0),
+                    (0, 0),     // O
+                    (1, 0),
+            (0, 0),
+            (2, 0),
+                    (1, 0),
+                    (2, 1),
+            (2, 1),
+            (0, 1),
+                    (2, 0),
+                    (0, 2),
+            (0, 1),
+            (1, 1),
+                    (2, 1),
+                    (2, 2),
+            (1, 1),
+            (1, 2),
+        ];
+
+        //  X   O   X
+        //  X   X   O
+        //  O   X   O
+
+        assert_eq!(game.play(plays[0]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[1]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[2]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[3]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[4]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[5]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[6]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[7]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[8]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[9]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[10]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[11]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[12]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[13]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[14]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[15]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[16]), MoveOutcome::NoChange);
+        assert_eq!(game.play(plays[17]), MoveOutcome::Draw);
     }
 }
