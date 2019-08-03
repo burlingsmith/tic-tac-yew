@@ -1,14 +1,22 @@
-//! Board
+//! 3x3 tic-tac-toe grid and associated methods.
 
 use super::*;
 
 //////////////////////////////////////////////////////////////////////////////
-//
+// Convenience Aliases
 //////////////////////////////////////////////////////////////////////////////
 
+/// Tuple of the form (column, row) used for accessing board cells.
+pub type Position = (usize, usize);
+
+//////////////////////////////////////////////////////////////////////////////
+// Primary Structure
+//////////////////////////////////////////////////////////////////////////////
+
+/// 3x3 tic-tac-toe board.
 #[derive(Debug)]
 pub(crate) struct Board {
-    values: [[Option<Player>; 3]; 3],
+    pub(crate) values: [[Option<Player>; 3]; 3],
 }
 
 impl Board {
@@ -16,12 +24,14 @@ impl Board {
     // Instantiation
     //////////////////////////////////
 
+    /// Create a new 3x3 grid with each cell instantiated to `None`.
     pub(crate) fn new() -> Self {
         Self {
             values: [[None; 3]; 3],
         }
     }
 
+    /// Create a new 3x3 grid with a given set of values.
     pub(crate) fn from_array(values: [[Option<Player>; 3]; 3]) -> Self {
         Self {
             values: values,
@@ -32,6 +42,7 @@ impl Board {
     // Evaluation
     //////////////////////////////////
 
+    /// Check for winners on a given board, either `Some(Player)` or `None`.
     pub(crate) fn winner(&self) -> Option<Player> {
         let mut result = None;
 
@@ -87,6 +98,26 @@ impl Board {
                 result = Some(Player::X);
             } else if only_has(&s1, Player::O) || only_has(&s2, Player::O) {
                 result = Some(Player::O);
+            }
+        }
+
+        result
+    }
+
+    /// Check for a full board.
+    pub(crate) fn is_full(&self) -> bool {
+        let mut result = true;
+
+        for col in 0..3 {
+            let column: HashSet<Option<Player>> = {
+                HashSet::from_iter(self.values[col].iter().cloned())
+            };
+
+            if column.contains(&Some(Player::X))
+                || column.contains(&Some(Player::O))
+            {
+                result = false;
+                break;
             }
         }
 

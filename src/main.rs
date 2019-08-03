@@ -2,31 +2,38 @@
 
 mod board;
 
+pub use board::Position;
+
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
 use board::Board;
 
 //////////////////////////////////////////////////////////////////////////////
-// Convenience Aliases
+// Auxiliary Structures
 //////////////////////////////////////////////////////////////////////////////
 
-type Index = (usize, usize);
-
-//////////////////////////////////////////////////////////////////////////////
-//
-//////////////////////////////////////////////////////////////////////////////
-
+/// Two tic-tac-toe player labels.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
-enum Player {
+pub enum Player {
     X,
     O,
 }
 
+/// Result of an attempted move.
+#[derive(Debug)]
+pub enum MoveOutcome {
+    Win(Player),
+    Draw,
+    Switch,
+    NoChange,
+}
+
 //////////////////////////////////////////////////////////////////////////////
-//
+// Primary Structure
 //////////////////////////////////////////////////////////////////////////////
 
+/// Tic-tac-toe game state.
 #[derive(Debug)]
 struct GameState {
     board: Board,
@@ -34,8 +41,29 @@ struct GameState {
 }
 
 impl GameState {
+    /// Setup a new game, with X going first.
     pub fn new() -> Self {
-        unimplemented!();
+        Self {
+            board: Board::new(),
+            turn: Player::X,
+        }
+    }
+
+    /// Attempt to make a move on the current board.
+    pub fn play(&mut self, (col, row): Position) -> MoveOutcome {
+        if col < 3 && row < 3 && self.board.values[col][row].is_none() {
+            if self.board.is_full() {
+                match self.board.winner() {
+                    None => MoveOutcome::Draw,
+                    Some(player) => MoveOutcome::Win(player),
+                }
+            } else {
+                MoveOutcome::Switch
+                // update board;
+            }
+        } else {
+            MoveOutcome::NoChange
+        }
     }
 }
 
@@ -44,22 +72,23 @@ impl GameState {
 //////////////////////////////////////////////////////////////////////////////
 
 fn main() {
-    let mut value = "Heyo!";
+    let mut game = GameState::new();
 
-    for i in 0..3 {
-        if i == 1 {
-            value = "Hello, World!";
-            break;
+    let game_result = loop {
+        let player_move: Position = unimplemented!();  // get_player_move()
+
+        match game.play(player_move) {
+            MoveOutcome::Switch | MoveOutcome::NoChange => (),
+            game_result => break game_result,
         }
-    }
+    };
 
-    println!("{}", value);
+    unimplemented!();
 }
 
 //////////////////////////////////////////////////////////////////////////////
 // Unit Tests
 //////////////////////////////////////////////////////////////////////////////
-
 
 #[cfg(test)]
 mod tests {
