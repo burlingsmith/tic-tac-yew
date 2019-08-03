@@ -20,6 +20,16 @@ pub enum Player {
     O,
 }
 
+impl Player {
+    /// Return the other player label.
+    fn other(&self) -> Self {
+        match self {
+            Player::X => Player::O,
+            Player::O => Player::X,
+        }
+    }
+}
+
 /// Result of an attempted move.
 #[derive(Debug)]
 pub enum MoveOutcome {
@@ -52,6 +62,9 @@ impl GameState {
     /// Attempt to make a move on the current board.
     pub fn play(&mut self, (col, row): Position) -> MoveOutcome {
         if col < 3 && row < 3 && self.board.values[col][row].is_none() {
+            self.board.values[col][row] = Some(self.turn);
+            self.turn = self.turn.other();
+
             if self.board.is_full() {
                 match self.board.winner() {
                     None => MoveOutcome::Draw,
@@ -59,7 +72,6 @@ impl GameState {
                 }
             } else {
                 MoveOutcome::Switch
-                // update board;
             }
         } else {
             MoveOutcome::NoChange
