@@ -109,15 +109,11 @@ impl Board {
         let mut result = true;
 
         for col in 0..3 {
-            let column: HashSet<Option<Player>> = {
-                HashSet::from_iter(self.values[col].iter().cloned())
-            };
-
-            if column.contains(&Some(Player::X))
-                || column.contains(&Some(Player::O))
-            {
-                result = false;
-                break;
+            for row in 0..3 {
+                if self.values[col][row].is_none() {
+                    result = false;
+                    break;
+                }
             }
         }
 

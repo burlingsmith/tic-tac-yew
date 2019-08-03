@@ -153,4 +153,34 @@ mod tests {
         assert_eq!(game.play(plays[4]), MoveOutcome::Switch);
         assert_eq!(game.play(plays[5]), MoveOutcome::Win(Player::O));
     }
+
+    #[test]
+    fn test_draw() {
+        let mut game = GameState::new();
+        let plays = [
+            (0, 0),             // X
+                    (1, 0),     // O
+            (2, 0),
+                    (2, 1),
+            (0, 1),
+                    (0, 2),
+            (1, 1),
+                    (2, 2),
+            (1, 2),
+        ];
+
+        //  X   O   X
+        //  X   X   O
+        //  O   X   O
+
+        assert_eq!(game.play(plays[0]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[1]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[2]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[3]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[4]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[5]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[6]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[7]), MoveOutcome::Switch);
+        assert_eq!(game.play(plays[8]), MoveOutcome::Draw);
+    }
 }
