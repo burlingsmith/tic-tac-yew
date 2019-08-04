@@ -24,27 +24,37 @@ body {
 
 .col-0 {
     display: inline-block;
+    width: 33%;
+    margin-bottom: 25px;
+    font-size: 24px;
 }
 
 .col-1 {
     display: inline-block;
+    width: 33%;
+    margin-bottom: 25px;
+    font-size: 24px;
 }
 
 .col-2 {
     display: inline-block;
+    width: 33%;
+    margin-bottom: 25px;
+    font-size: 24px;
 }
 
-.row-0 {
-    /* ... */
-}
+.row-0 {}
 
-.row-1 {
-    /* ... */
-}
+.row-1 {}
 
-.row-2 {
-    /* ... */
-}
+.row-2 {}
+
+
+/*****************************************************************************
+ Game Record
+ ***********/
+
+.record {}
 
 
 /*****************************************************************************
@@ -57,7 +67,7 @@ body {
 }
 
 .game-container {
-    margin: 20px 0 0px 0;
+    margin-top: 30px;
 }
 
 .game-board {
@@ -96,6 +106,20 @@ body {
     border-style: solid;
     border-color: black;
     border-width: 2px;
+}
+
+
+/*****************************************************************************
+ Game Buttons
+ ************/
+
+.game-buttons {}
+
+.reset-button {
+    margin: 20px;
+    width: 75px;
+    height: 25px;
+    color: darkgray;
 }
 
 

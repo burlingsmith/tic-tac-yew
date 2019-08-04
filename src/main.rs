@@ -4,12 +4,10 @@
 
 mod board;
 
-pub use board::Position;
+use board::Position;
 
 use std::collections::HashSet;
 use std::iter::FromIterator;
-
-use stdweb::js;
 
 use yew::prelude::*;
 use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
@@ -22,7 +20,7 @@ use board::Board;
 
 /// Two tic-tac-toe player labels.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
-pub enum Player {
+enum Player {
     X,
     O,
 }
@@ -39,7 +37,7 @@ impl Player {
 
 /// Result of an attempted move.
 #[derive(Debug, Eq, PartialEq)]
-pub enum MoveOutcome {
+enum MoveOutcome {
     Win(Player),
     Draw,
     Switch,
@@ -84,7 +82,7 @@ impl GameState {
     //////////////////////////////////
 
     /// Setup a new game, with X going first.
-    pub fn new() -> Self {
+    fn new() -> Self {
         Self {
             board: Board::new(),
             turn: Player::X,
@@ -99,7 +97,7 @@ impl GameState {
     //////////////////////////////////
 
     /// Attempt to make a move on the current board.
-    pub fn play(&mut self, (col, row): Position) -> MoveOutcome {
+    fn play(&mut self, (col, row): Position) -> MoveOutcome {
         if !self.ongoing {
             MoveOutcome::NoChange
         } else if self.board.values[col][row].is_none()
@@ -138,6 +136,14 @@ impl GameState {
             MoveOutcome::NoChange
         }
     }
+
+    /// Reset everthing besides the game log.
+    fn reset(&mut self) {
+        self.board = Board::new();
+        self.turn = Player::X;
+        self.ongoing = true;
+        self.winner = None;
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -149,7 +155,7 @@ type Model = GameState;
 #[derive(Debug)]
 enum Msg {
     Click(Position),
-    Nil,
+    Reset,
 }
 
 impl Component for Model {
@@ -166,7 +172,10 @@ impl Component for Model {
                 self.play(pos);
                 true
             }
-            _ => false,
+            Msg::Reset => {
+                self.reset();
+                true
+            }
         }
     }
 }
@@ -234,6 +243,17 @@ impl Renderable<Model> for Model {
         html! {
             <div>
                 <section class="game-container">
+                    <div class="record">
+                        <div class="col-0">
+                            { format!("Chi victories: {}", self.log.xwins) }
+                        </div>
+                        <div class="col-1">
+                            { format!("Omi victories: {}", self.log.owins) }
+                        </div>
+                        <div class="col-2">
+                            { format!("Draws: {}", self.log.draws) }
+                        </div>
+                    </div>
                     <section class="game-area">
                         <div class="game-board">
                             { for positions.iter().map(view_tile) }
@@ -243,6 +263,17 @@ impl Renderable<Model> for Model {
                         </div>
                         <div class=("indicator", indicator)>
                         </div>
+                        <div class="game-buttons">
+                            <button
+                                type="button"
+                                class="reset-button"
+                                onclick=|_| Msg::Reset
+                            >
+                                {
+                                    "RESET"
+                                }
+                            </button>
+                        </div>
                     </section>
                 </section>
             </div>
@@ -251,32 +282,6 @@ impl Renderable<Model> for Model {
 }
 
 fn main() {
-    js! {
-        document.onkeydown = function(e) {
-            if (e.keyCode == 82) {          // R
-                alert("Pressed 'R'");
-            } else if (e.keyCode == 49) {   // 1
-                alert("Pressed '1'");
-            } else if (e.keyCode == 50) {   // 2
-                alert("Pressed '2'");
-            } else if (e.keyCode == 51) {   // 3
-                alert("Pressed '3'");
-            } else if (e.keyCode == 52) {   // 4
-                alert("Pressed '4'");
-            } else if (e.keyCode == 53) {   // 5
-                alert("Pressed '5'");
-            } else if (e.keyCode == 54) {   // 6
-                alert("Pressed '6'");
-            } else if (e.keyCode == 55) {   // 6
-                alert("Pressed '7'");
-            } else if (e.keyCode == 56) {   // 6
-                alert("Pressed '8'");
-            } else if (e.keyCode == 57) {   // 9
-                alert("Pressed '9'");
-            }
-        };
-    }
-
     yew::initialize();
     App::<Model>::new().mount_to_body();
     yew::run_loop();
