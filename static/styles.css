@@ -10,11 +10,11 @@
     margin: auto;
     text-align: center;
     padding: none;
+    line-height: 0px;
 }
 
 body {
     font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    line-height: 1.4em;
 }
 
 
@@ -23,18 +23,15 @@ body {
  ********************/
 
 .col-0 {
-    width: 33%;
-    float: left;
+    display: inline-block;
 }
 
 .col-1 {
-    width: 33%;
-    float: middle;
+    display: inline-block;
 }
 
 .col-2 {
-    width: 33%;
-    float: right;
+    display: inline-block;
 }
 
 .row-0 {
@@ -59,25 +56,20 @@ body {
     height: 450px;
 }
 
-.game-board {
-    /* Dimensions */
-    width: 90%;
-    height: 90%;
-
-    /* Borders */
-    border-style: solid;
-    border-color: black;
-    border-width: 5px;
-}
-
 .game-container {
     margin: 20px 0 0px 0;
 }
 
+.game-board {
+    /* Dimensions */
+    width: 100%;
+    height: 100%;
+}
+
 .x-tile {
-    color: crimson;
-    background-color: crimson;
-    border-color: crimson;
+    color: #ACF39D;
+    background-color: #ACF39D;
+    border-color: #ACF39D;
 }
 
 .o-tile {
@@ -94,8 +86,11 @@ body {
 
 .tile {
     /* Dimensions */
-    width: 33%;
-    height: 33%;
+    width: 30%;
+    height: 30%;
+
+    /* Positioning */
+    margin: 3px;
 
     /* Borders */
     border-style: solid;
@@ -110,26 +105,26 @@ body {
 
 .indicator {
     margin-top: 15px;
-    width: 15px;
-    height: 15px;
+    width: 25px;
+    height: 25px;
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
 }
 
 .chi {
-    color: crimson;
-    background-color: crimson;
-    border-color: crimson;
+    color: #ACF39D;
+    background-color: #ACF39D;
 }
 
 .omi {
     color: aqua;
     background-color: aqua;
-    border-color: aqua;
 }
 
 .neutral {
     color: #F0F0F0;
     background-color: #F0F0F0;
-    border-color: #F0F0F0;
 }
 
 
