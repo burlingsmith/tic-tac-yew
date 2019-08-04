@@ -9,6 +9,9 @@ pub use board::Position;
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
+use stdweb::{js, Number, Value};
+use stdweb::web::event::KeyPressEvent;
+
 use yew::prelude::*;
 use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
 
@@ -48,6 +51,24 @@ pub enum MoveOutcome {
 // Primary Structure
 //////////////////////////////////////////////////////////////////////////////
 
+/// Win/Loss record over the course of multiple games.
+#[derive(Debug)]
+struct Record {
+    xwins: u32,
+    owins: u32,
+    draws: u32,
+}
+
+impl Record {
+    fn new() -> Self {
+        Self {
+            xwins: 0,
+            owins: 0,
+            draws: 0,
+        }
+    }
+}
+
 /// Tic-tac-toe game state.
 #[derive(Debug)]
 struct GameState {
@@ -55,6 +76,7 @@ struct GameState {
     turn: Player,
     ongoing: bool,
     winner: Option<Player>,
+    log: Record,
 }
 
 impl GameState {
@@ -69,6 +91,7 @@ impl GameState {
             turn: Player::X,
             ongoing: true,
             winner: None,
+            log: Record::new(),
         }
     }
 
@@ -91,11 +114,18 @@ impl GameState {
                     self.ongoing = false;
                     self.winner = Some(player);
 
+                    if player == Player::X {
+                        self.log.xwins += 1;
+                    } else {
+                        self.log.owins += 1;
+                    }
+
                     MoveOutcome::Win(player)
                 }
                 None => {
                     if self.board.is_full() {
                         self.ongoing = false;
+                        self.log.draws += 1;
 
                         MoveOutcome::Draw
                     } else {
