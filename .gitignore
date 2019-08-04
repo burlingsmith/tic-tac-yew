@@ -3,7 +3,7 @@
 **/*.sublime-workspace
 
 # cargo
-**/target/
+#**/target/
 **/Cargo.lock
 
 # rustfmt

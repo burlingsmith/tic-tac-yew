@@ -1,1 +1,0 @@
-{"rustc":2854982172252333660,"features":"[]","target":2840983176253631032,"profile":9935990280773120926,"path":11470333270937191653,"deps":[[10540655677383872521,"build_script_build",false,16903367346702161961]],"local":[{"Precalculated":"0.1.3"}],"rustflags":["--cfg","cargo_web"],"metadata":13146914622308387279}
