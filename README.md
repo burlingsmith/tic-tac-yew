@@ -2,9 +2,10 @@
 Tic-tac-toe project implemented with the Yew framework for Rust.
 
 ## About
-This is just a personal project for teaching myself how to use
-[DenisKolodin's Yew framework](https://github.com/DenisKolodin/yew) and
-[TensorFlow Rust](https://github.com/tensorflow/rust).
+This project is just some personal practice with the following:
+- [DenisKolodin's Yew framework](https://github.com/DenisKolodin/yew)
+- [TensorFlow Rust](https://github.com/tensorflow/rust)
+- [TDD](https://www.codecademy.com/articles/tdd-red-green-refactor) discipline
 
 ## License
 Dual-licensed to be compatible with the Rust project.

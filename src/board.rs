@@ -44,8 +44,9 @@ impl Board {
     pub(crate) fn winner(&self) -> Option<Player> {
         let mut result = None;
 
-        let only_has =
-            |set: &HashSet<Option<Player>>, player| set.len() == 1 && set.contains(&Some(player));
+        let only_has = |set: &HashSet<Option<Player>>, player| {
+            set.len() == 1 && set.contains(&Some(player))
+        };
 
         // Vertical checks
         for col in 0..3 {
@@ -119,7 +120,7 @@ impl Board {
 
 //////////////////////////////////////////////////////////////////////////////
 // Unit Tests
-//////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////1//////////////////////////////////////////
 
 #[cfg(test)]
 mod tests {

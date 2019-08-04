@@ -1,0 +1,56 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+body {
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.4em;
+    color: #4d4d4d;
+    min-width: 230px;
+    max-width: 550px;
+    margin: 0 auto;
+    font-smoothing: antialiased;
+    font-weight: 300;
+    background-color: #000000;
+}
+
+.game-area {
+    width: 94%;
+    height: 510px;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.game-board {
+
+}
+
+.game-status {
+    font: 32px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.game-container {
+    background: #000000;
+    margin: 20px 0 0px 0;
+}
+
+.tile {
+    width: 50em;
+    height: 50em;
+    border-color: black;
+}
+
+.x-tile {
+
+}
+
+.o-tile {
+
+}
+
+.empty-tile {
+
+}

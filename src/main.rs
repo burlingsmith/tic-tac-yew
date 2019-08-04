@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 //! Tic-tac-toe written in Rust using the Yew framework.
 
 mod board;
@@ -8,6 +10,7 @@ use std::collections::HashSet;
 use std::iter::FromIterator;
 
 //use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
+use yew::prelude::*;
 use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
 
 use board::Board;
@@ -51,6 +54,8 @@ pub enum MoveOutcome {
 struct GameState {
     board: Board,
     turn: Player,
+    ongoing: bool,
+    winner: Option<Player>,
 }
 
 impl GameState {
@@ -63,6 +68,8 @@ impl GameState {
         Self {
             board: Board::new(),
             turn: Player::X,
+            ongoing: true,
+            winner: None,
         }
     }
 
@@ -72,10 +79,20 @@ impl GameState {
 
     /// Attempt to make a move on the current board.
     pub fn play(&mut self, (col, row): Position) -> MoveOutcome {
-        if col < 3 && row < 3 && self.board.values[col][row].is_none() {
+        if self.ongoing {
+            MoveOutcome::NoChange
+        } else if self.board.values[col][row].is_none()
+            && col < 3
+            && row < 3
+        {
             self.board.values[col][row] = Some(self.turn);
 
             match self.board.winner() {
+                Some(player) => {
+                    self.winner = Some(player);
+
+                    MoveOutcome::Win(player)
+                }
                 None => {
                     if self.board.is_full() {
                         MoveOutcome::Draw
@@ -84,7 +101,6 @@ impl GameState {
                         MoveOutcome::Switch
                     }
                 }
-                Some(player) => MoveOutcome::Win(player),
             }
         } else {
             MoveOutcome::NoChange
@@ -100,6 +116,8 @@ type Model = GameState;
 
 #[derive(Debug)]
 enum Msg {
+    Click(Position),
+    Feedback(MoveOutcome),
     Nil,
 }
 
@@ -120,43 +138,66 @@ impl Component for Model {
 
 impl Renderable<Model> for Model {
     fn view(&self) -> Html<Self> {
-        for col in 0..3 {
-            for row in 0..3 {
-                match self.board.values[col][row] {
-                    Some(Player::X) => {
-                        unimplemented!();
-                    }
-                    Some(Player::O) => {
-                        unimplemented!();
-                    }
-                    _ => {
-                        unimplemented!();
-                    }
+        let positions: [Position; 9] = [
+            (0, 0), (1, 0), (2, 0),
+            (0, 1), (1, 1), (2, 1),
+            (0, 2), (1, 2), (2, 2),
+        ];
+        let game_status = {
+            if self.ongoing {
+                if self.turn == Player::X {
+                    "Active player: Chi"
+                } else {
+                    "Active player: Omi"
+                }
+            } else {
+                match self.winner {
+                    Some(Player::X) => "Chi Wins!",
+                    Some(Player::O) => "Omi Wins!",
+                    None => "It's a draw!",
                 }
             }
-        }
+        };
 
-        unimplemented!();
+        let view_tile = |pos: &Position| {
+            let (col, row) = *pos;
+
+            let val = match self.board.values[col][row] {
+                Some(Player::X) => "x-tile",
+                Some(Player::O) => "o-tile",
+                _ => "empty-tile",
+            };
+
+            html! {
+                <div class=("tile", val) onclick=|_| Msg::Click((col, row))>
+                    {
+                        "placeholder"
+                    }
+                </div>
+            }
+        };
+
+        html! {
+            <div>
+                <section class="game-container">
+                    <section class="game-area">
+                        <div class="game-board">
+                            { for positions.iter().map(view_tile) }
+                        </div>
+                        <div class="game-status">
+                            { game_status }
+                        </div>
+                    </section>
+                </section>
+            </div>
+        }
     }
 }
 
 fn main() {
-    yew::start_app::<Model>();
-
-    /*
-    let mut game = GameState::new();
-
-    let game_result = loop {
-        let player_move: Position = unimplemented!();  // get_player_move()
-
-        match game.play(player_move) {
-            MoveOutcome::Switch | MoveOutcome::NoChange => (),
-            game_result => break game_result,
-        }
-    };
-    */
-
-    unimplemented!();
+    yew::initialize();
+    App::<Model>::new().mount_to_body();
+    yew::run_loop();
 }
 
 //////////////////////////////////////////////////////////////////////////////
