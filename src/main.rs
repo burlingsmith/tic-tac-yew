@@ -9,8 +9,7 @@ pub use board::Position;
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
-use stdweb::{js, Number, Value};
-use stdweb::web::event::KeyPressEvent;
+use stdweb::js;
 
 use yew::prelude::*;
 use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
@@ -252,6 +251,32 @@ impl Renderable<Model> for Model {
 }
 
 fn main() {
+    js! {
+        document.onkeydown = function(e) {
+            if (e.keyCode == 82) {          // R
+                alert("Pressed 'R'");
+            } else if (e.keyCode == 49) {   // 1
+                alert("Pressed '1'");
+            } else if (e.keyCode == 50) {   // 2
+                alert("Pressed '2'");
+            } else if (e.keyCode == 51) {   // 3
+                alert("Pressed '3'");
+            } else if (e.keyCode == 52) {   // 4
+                alert("Pressed '4'");
+            } else if (e.keyCode == 53) {   // 5
+                alert("Pressed '5'");
+            } else if (e.keyCode == 54) {   // 6
+                alert("Pressed '6'");
+            } else if (e.keyCode == 55) {   // 6
+                alert("Pressed '7'");
+            } else if (e.keyCode == 56) {   // 6
+                alert("Pressed '8'");
+            } else if (e.keyCode == 57) {   // 9
+                alert("Pressed '9'");
+            }
+        };
+    }
+
     yew::initialize();
     App::<Model>::new().mount_to_body();
     yew::run_loop();
