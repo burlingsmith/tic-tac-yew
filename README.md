@@ -1,5 +1,5 @@
 # Tic-Tac-Yew
-Tic-tac-toe web app, implemented in Rust.
+Tic-tac-toe, implemented in Rust.
 
 ## About
 This project is just some personal practice with the following:
