@@ -9,7 +9,6 @@ pub use board::Position;
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
-//use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
 use yew::prelude::*;
 use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
 
@@ -79,7 +78,7 @@ impl GameState {
 
     /// Attempt to make a move on the current board.
     pub fn play(&mut self, (col, row): Position) -> MoveOutcome {
-        if self.ongoing {
+        if !self.ongoing {
             MoveOutcome::NoChange
         } else if self.board.values[col][row].is_none()
             && col < 3
