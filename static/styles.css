@@ -14,7 +14,6 @@ body {
     margin: 0 auto;
     font-smoothing: antialiased;
     font-weight: 300;
-    background-color: #000000;
 }
 
 .game-area {
@@ -38,9 +37,8 @@ body {
 }
 
 .tile {
-    width: 50em;
-    height: 50em;
-    border-color: black;
+    width: 10em;
+    height: 10em;
 }
 
 .x-tile {

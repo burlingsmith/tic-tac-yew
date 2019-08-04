@@ -170,7 +170,7 @@ impl Renderable<Model> for Model {
             html! {
                 <div class=("tile", val) onclick=|_| Msg::Click((col, row))>
                     {
-                        "placeholder"
+                        val
                     }
                 </div>
             }
