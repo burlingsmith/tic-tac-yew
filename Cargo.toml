@@ -1,9 +1,0 @@
-[package]
-name = "tic-tac-yew"
-version = "0.3.0"
-authors = ["cmarcbs7 <cmarbs7@gmail.com>"]
-edition = "2018"
-
-[dependencies]
-stdweb = "0.4.18"
-yew = "0.7.0"
