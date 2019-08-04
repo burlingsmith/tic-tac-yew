@@ -88,15 +88,19 @@ impl GameState {
 
             match self.board.winner() {
                 Some(player) => {
+                    self.ongoing = false;
                     self.winner = Some(player);
 
                     MoveOutcome::Win(player)
                 }
                 None => {
                     if self.board.is_full() {
+                        self.ongoing = false;
+
                         MoveOutcome::Draw
                     } else {
                         self.turn = self.turn.other();
+
                         MoveOutcome::Switch
                     }
                 }
@@ -116,7 +120,6 @@ type Model = GameState;
 #[derive(Debug)]
 enum Msg {
     Click(Position),
-    Feedback(MoveOutcome),
     Nil,
 }
 
@@ -130,51 +133,74 @@ impl Component for Model {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            _ => true,
+            Msg::Click(pos) => {
+                self.play(pos);
+                true
+            }
+            _ => false,
         }
     }
 }
 
 impl Renderable<Model> for Model {
     fn view(&self) -> Html<Self> {
-        let positions: [Position; 9] = [
-            (0, 0), (1, 0), (2, 0),
-            (0, 1), (1, 1), (2, 1),
-            (0, 2), (1, 2), (2, 2),
-        ];
-        let game_status = {
+        // CSS labels
+        let xteam_label = "chi";
+        let oteam_label = "omi";
+        let neutr_label = "neutral";
+
+        // Game status rendering
+        let (game_status, indicator) = {
             if self.ongoing {
                 if self.turn == Player::X {
-                    "Active player: Chi"
+                    ("Active player: Chi", xteam_label)
                 } else {
-                    "Active player: Omi"
+                    ("Active player: Omi", oteam_label)
                 }
             } else {
                 match self.winner {
-                    Some(Player::X) => "Chi Wins!",
-                    Some(Player::O) => "Omi Wins!",
-                    None => "It's a draw!",
+                    Some(Player::X) => ("Chi Wins!", xteam_label),
+                    Some(Player::O) => ("Omi Wins!", oteam_label),
+                    None => ("It's a draw!", neutr_label),
                 }
             }
         };
 
+        // Single-tile rendering
         let view_tile = |pos: &Position| {
             let (col, row) = *pos;
 
-            let val = match self.board.values[col][row] {
+            let col_label = match col {
+                0 => "col-0",
+                1 => "col-1",
+                _ => "col-2",
+            };
+            let row_label = match row {
+                0 => "row-0",
+                1 => "row-1",
+                _ => "row-2",
+            };
+            let tile_label = match self.board.values[col][row] {
                 Some(Player::X) => "x-tile",
                 Some(Player::O) => "o-tile",
                 _ => "empty-tile",
             };
 
             html! {
-                <div class=("tile", val) onclick=|_| Msg::Click((col, row))>
-                    {
-                        val
-                    }
+                <div
+                    class=("tile", tile_label, col_label, row_label)
+                    onclick=|_| Msg::Click((col, row))
+                >
                 </div>
             }
         };
+
+        // Complete rendering
+        let positions: [Position; 9] = [
+            (0, 0), (1, 0), (2, 0),
+            (0, 1), (1, 1), (2, 1),
+            (0, 2), (1, 2), (2, 2),
+        ];
 
         html! {
             <div>
@@ -185,6 +211,8 @@ impl Renderable<Model> for Model {
                         </div>
                         <div class="game-status">
                             { game_status }
+                        </div>
+                        <div class=("indicator", indicator)>
                         </div>
                     </section>
                 </section>

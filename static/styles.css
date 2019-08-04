@@ -1,54 +1,144 @@
-html,
-body {
-    margin: 0;
-    padding: 0;
+/* Stylesheet for Tic-Tac-Yew */
+
+
+/*****************************************************************************
+ Generic
+ *******/
+
+* {
+    box-sizing: border-box;
+    margin: auto;
     text-align: center;
+    padding: none;
 }
 
 body {
     font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.4em;
-    color: #4d4d4d;
-    min-width: 230px;
-    max-width: 550px;
-    margin: 0 auto;
-    font-smoothing: antialiased;
-    font-weight: 300;
 }
 
+
+/*****************************************************************************
+ Responsive Grid-View
+ ********************/
+
+.col-0 {
+    width: 33%;
+    float: left;
+}
+
+.col-1 {
+    width: 33%;
+    float: middle;
+}
+
+.col-2 {
+    width: 33%;
+    float: right;
+}
+
+.row-0 {
+    /* ... */
+}
+
+.row-1 {
+    /* ... */
+}
+
+.row-2 {
+    /* ... */
+}
+
+
+/*****************************************************************************
+ Game Board
+ **********/
+
 .game-area {
-    width: 94%;
-    height: 510px;
-    max-width: 500px;
-    margin: 20px auto;
+    width: 450px;
+    height: 450px;
 }
 
 .game-board {
+    /* Dimensions */
+    width: 90%;
+    height: 90%;
 
-}
-
-.game-status {
-    font: 32px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /* Borders */
+    border-style: solid;
+    border-color: black;
+    border-width: 5px;
 }
 
 .game-container {
-    background: #000000;
     margin: 20px 0 0px 0;
 }
 
-.tile {
-    width: 10em;
-    height: 10em;
-}
-
 .x-tile {
-
+    color: crimson;
+    background-color: crimson;
+    border-color: crimson;
 }
 
 .o-tile {
-
+    color: aqua;
+    background-color: aqua;
+    border-color: aqua;
 }
 
 .empty-tile {
+    color: #F0F0F0;
+    background-color: #F0F0F0;
+    border-color: #F0F0F0;
+}
 
+.tile {
+    /* Dimensions */
+    width: 33%;
+    height: 33%;
+
+    /* Borders */
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+}
+
+
+/*****************************************************************************
+ Indicators
+ **********/
+
+.indicator {
+    margin-top: 15px;
+    width: 15px;
+    height: 15px;
+}
+
+.chi {
+    color: crimson;
+    background-color: crimson;
+    border-color: crimson;
+}
+
+.omi {
+    color: aqua;
+    background-color: aqua;
+    border-color: aqua;
+}
+
+.neutral {
+    color: #F0F0F0;
+    background-color: #F0F0F0;
+    border-color: #F0F0F0;
+}
+
+
+/*****************************************************************************
+ Miscellaneous U.I.
+ ******************/
+
+.game-status {
+    margin-top: 15px;
+    font: 32px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-align: center;
 }
