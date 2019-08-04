@@ -1,5 +1,5 @@
 # Tic-Tac-Yew
-Tic-tac-toe project implemented with the Yew framework for Rust.
+Tic-tac-toe web app, implemented in Rust.
 
 ## About
 This project is just some personal practice with the following:
