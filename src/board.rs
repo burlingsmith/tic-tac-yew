@@ -33,9 +33,7 @@ impl Board {
 
     /// Create a new 3x3 grid with a given set of values.
     pub(crate) fn from_array(values: [[Option<Player>; 3]; 3]) -> Self {
-        Self {
-            values: values,
-        }
+        Self { values: values }
     }
 
     //////////////////////////////////
@@ -46,15 +44,13 @@ impl Board {
     pub(crate) fn winner(&self) -> Option<Player> {
         let mut result = None;
 
-        let only_has = |set: &HashSet<Option<Player>>, player| {
-            set.len() == 1 && set.contains(&Some(player))
-        };
+        let only_has =
+            |set: &HashSet<Option<Player>>, player| set.len() == 1 && set.contains(&Some(player));
 
         // Vertical checks
         for col in 0..3 {
-            let column: HashSet<Option<Player>> = {
-                HashSet::from_iter(self.values[col].iter().cloned())
-            };
+            let column: HashSet<Option<Player>> =
+                { HashSet::from_iter(self.values[col].iter().cloned()) };
 
             if only_has(&column, Player::X) {
                 result = Some(Player::X);
@@ -142,72 +138,56 @@ mod tests {
 
     #[test]
     fn test_winner() {
-        let horizontal_x_win_1 = Board::from_array(
-            [
-                [Some(Player::X), Some(Player::X), Some(Player::X)],
-                [None, None, None],
-                [None, None, None],
-            ]
-        );
-        let horizontal_o_win_2 = Board::from_array(
-            [
-                [None, None, None],
-                [Some(Player::O), Some(Player::O), Some(Player::O)],
-                [None, None, None],
-            ]
-        );
-        let horizontal_x_win_3 = Board::from_array(
-            [
-                [None, None, None],
-                [None, None, None],
-                [Some(Player::X), Some(Player::X), Some(Player::X)],
-            ]
-        );
+        let horizontal_x_win_1 = Board::from_array([
+            [Some(Player::X), Some(Player::X), Some(Player::X)],
+            [None, None, None],
+            [None, None, None],
+        ]);
+        let horizontal_o_win_2 = Board::from_array([
+            [None, None, None],
+            [Some(Player::O), Some(Player::O), Some(Player::O)],
+            [None, None, None],
+        ]);
+        let horizontal_x_win_3 = Board::from_array([
+            [None, None, None],
+            [None, None, None],
+            [Some(Player::X), Some(Player::X), Some(Player::X)],
+        ]);
 
         assert_eq!(horizontal_x_win_1.winner(), Some(Player::X));
         assert_eq!(horizontal_o_win_2.winner(), Some(Player::O));
         assert_eq!(horizontal_x_win_3.winner(), Some(Player::X));
 
-        let vertical_o_win_1 = Board::from_array(
-            [
-                [Some(Player::O), None, None],
-                [Some(Player::O), None, None],
-                [Some(Player::O), None, None],
-            ]
-        );
-        let vertical_x_win_2 = Board::from_array(
-            [
-                [None, Some(Player::X), None],
-                [None, Some(Player::X), None],
-                [None, Some(Player::X), None],
-            ]
-        );
-        let vertical_o_win_3 = Board::from_array(
-            [
-                [None, None, Some(Player::O)],
-                [None, None, Some(Player::O)],
-                [None, None, Some(Player::O)],
-            ]
-        );
+        let vertical_o_win_1 = Board::from_array([
+            [Some(Player::O), None, None],
+            [Some(Player::O), None, None],
+            [Some(Player::O), None, None],
+        ]);
+        let vertical_x_win_2 = Board::from_array([
+            [None, Some(Player::X), None],
+            [None, Some(Player::X), None],
+            [None, Some(Player::X), None],
+        ]);
+        let vertical_o_win_3 = Board::from_array([
+            [None, None, Some(Player::O)],
+            [None, None, Some(Player::O)],
+            [None, None, Some(Player::O)],
+        ]);
 
         assert_eq!(vertical_o_win_1.winner(), Some(Player::O));
         assert_eq!(vertical_x_win_2.winner(), Some(Player::X));
         assert_eq!(vertical_o_win_3.winner(), Some(Player::O));
 
-        let diagonal_x_win_1 = Board::from_array(
-            [
-                [Some(Player::X), None, None],
-                [None, Some(Player::X), None],
-                [None, None, Some(Player::X)],
-            ]
-        );
-        let diagonal_o_win_2 = Board::from_array(
-            [
-                [None, None, Some(Player::O)],
-                [None, Some(Player::O), None],
-                [Some(Player::O), None, None],
-            ]
-        );
+        let diagonal_x_win_1 = Board::from_array([
+            [Some(Player::X), None, None],
+            [None, Some(Player::X), None],
+            [None, None, Some(Player::X)],
+        ]);
+        let diagonal_o_win_2 = Board::from_array([
+            [None, None, Some(Player::O)],
+            [None, Some(Player::O), None],
+            [Some(Player::O), None, None],
+        ]);
 
         assert_eq!(diagonal_x_win_1.winner(), Some(Player::X));
         assert_eq!(diagonal_o_win_2.winner(), Some(Player::O));
@@ -215,41 +195,31 @@ mod tests {
 
     #[test]
     fn test_no_winner() {
-        let center = Board::from_array(
-            [
-                [None, None, None],
-                [None, Some(Player::O), None],
-                [None, None, None],
-            ]
-        );
-        let corners = Board::from_array(
-            [
-                [Some(Player::X), None, Some(Player::X)],
-                [None, None, None],
-                [Some(Player::X), None, Some(Player::X)],
-            ]
-        );
-        let diamond = Board::from_array(
-            [
-                [None, Some(Player::O), None],
-                [Some(Player::O), None, Some(Player::O)],
-                [None, Some(Player::O), None],
-            ]
-        );
-        let triangles = Board::from_array(
-            [
-                [Some(Player::X), Some(Player::X), None],
-                [Some(Player::X), None, Some(Player::O)],
-                [None, Some(Player::O), Some(Player::O)],
-            ]
-        );
-        let draw = Board::from_array(
-            [
-                [Some(Player::X), Some(Player::O), Some(Player::O)],
-                [Some(Player::O), Some(Player::X), Some(Player::X)],
-                [Some(Player::X), Some(Player::X), Some(Player::O)],
-            ]
-        );
+        let center = Board::from_array([
+            [None, None, None],
+            [None, Some(Player::O), None],
+            [None, None, None],
+        ]);
+        let corners = Board::from_array([
+            [Some(Player::X), None, Some(Player::X)],
+            [None, None, None],
+            [Some(Player::X), None, Some(Player::X)],
+        ]);
+        let diamond = Board::from_array([
+            [None, Some(Player::O), None],
+            [Some(Player::O), None, Some(Player::O)],
+            [None, Some(Player::O), None],
+        ]);
+        let triangles = Board::from_array([
+            [Some(Player::X), Some(Player::X), None],
+            [Some(Player::X), None, Some(Player::O)],
+            [None, Some(Player::O), Some(Player::O)],
+        ]);
+        let draw = Board::from_array([
+            [Some(Player::X), Some(Player::O), Some(Player::O)],
+            [Some(Player::O), Some(Player::X), Some(Player::X)],
+            [Some(Player::X), Some(Player::X), Some(Player::O)],
+        ]);
 
         assert_eq!(center.winner(), None);
         assert_eq!(corners.winner(), None);
@@ -257,79 +227,61 @@ mod tests {
         assert_eq!(triangles.winner(), None);
         assert_eq!(draw.winner(), None);
 
-        let mixed_horizontal_1 = Board::from_array(
-            [
-                [Some(Player::O), Some(Player::X), Some(Player::X)],
-                [None, None, None],
-                [None, None, None],
-            ]
-        );
-        let mixed_horizontal_2 = Board::from_array(
-            [
-                [None, None, None],
-                [Some(Player::O), Some(Player::X), Some(Player::O)],
-                [None, None, None],
-            ]
-        );
-        let mixed_horizontal_3 = Board::from_array(
-            [
-                [None, None, None],
-                [None, None, None],
-                [Some(Player::X), Some(Player::X), Some(Player::O)],
-            ]
-        );
+        let mixed_horizontal_1 = Board::from_array([
+            [Some(Player::O), Some(Player::X), Some(Player::X)],
+            [None, None, None],
+            [None, None, None],
+        ]);
+        let mixed_horizontal_2 = Board::from_array([
+            [None, None, None],
+            [Some(Player::O), Some(Player::X), Some(Player::O)],
+            [None, None, None],
+        ]);
+        let mixed_horizontal_3 = Board::from_array([
+            [None, None, None],
+            [None, None, None],
+            [Some(Player::X), Some(Player::X), Some(Player::O)],
+        ]);
 
         assert_eq!(mixed_horizontal_1.winner(), None);
         assert_eq!(mixed_horizontal_2.winner(), None);
         assert_eq!(mixed_horizontal_3.winner(), None);
 
-        let mixed_vertical_1 = Board::from_array(
-            [
-                [Some(Player::O), None, None],
-                [Some(Player::X), None, None],
-                [Some(Player::X), None, None],
-            ]
-        );
-        let mixed_vertical_2 = Board::from_array(
-            [
-                [None, Some(Player::X), None],
-                [None, Some(Player::X), None],
-                [None, Some(Player::O), None],
-            ]
-        );
-        let mixed_vertical_3 = Board::from_array(
-            [
-                [None, None, Some(Player::X)],
-                [None, None, Some(Player::O)],
-                [None, None, Some(Player::X)],
-            ]
-        );
+        let mixed_vertical_1 = Board::from_array([
+            [Some(Player::O), None, None],
+            [Some(Player::X), None, None],
+            [Some(Player::X), None, None],
+        ]);
+        let mixed_vertical_2 = Board::from_array([
+            [None, Some(Player::X), None],
+            [None, Some(Player::X), None],
+            [None, Some(Player::O), None],
+        ]);
+        let mixed_vertical_3 = Board::from_array([
+            [None, None, Some(Player::X)],
+            [None, None, Some(Player::O)],
+            [None, None, Some(Player::X)],
+        ]);
 
         assert_eq!(mixed_vertical_1.winner(), None);
         assert_eq!(mixed_vertical_2.winner(), None);
         assert_eq!(mixed_vertical_3.winner(), None);
 
-        let mixed_diagonal_1 = Board::from_array(
-            [
-                [None, None, Some(Player::O)],
-                [None, Some(Player::O), None],
-                [Some(Player::X), None, None],
-            ]
-        );
-        let mixed_diagonal_2 = Board::from_array(
-            [
-                [Some(Player::X), None, None],
-                [None, Some(Player::O), None],
-                [None, None, Some(Player::O)],
-            ]
-        );
-        let mixed_diagonal_3 = Board::from_array(
-            [
-                [None, None, Some(Player::O)],
-                [None, Some(Player::X), None],
-                [Some(Player::O), None, None],
-            ]
-        );
+        let mixed_diagonal_1 = Board::from_array([
+            [None, None, Some(Player::O)],
+            [None, Some(Player::O), None],
+            [Some(Player::X), None, None],
+        ]);
+        let mixed_diagonal_2 = Board::from_array([
+            [Some(Player::X), None, None],
+            [None, Some(Player::O), None],
+            [None, None, Some(Player::O)],
+        ]);
+        let mixed_diagonal_3 = Board::from_array([
+            [None, None, Some(Player::O)],
+            [None, Some(Player::X), None],
+            [Some(Player::O), None, None],
+        ]);
 
         assert_eq!(mixed_diagonal_1.winner(), None);
         assert_eq!(mixed_diagonal_2.winner(), None);

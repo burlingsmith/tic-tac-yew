@@ -7,6 +7,9 @@ pub use board::Position;
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
+//use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
+use yew::{html, Component, ComponentLink, Html, Renderable, ShouldRender};
+
 use board::Board;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -90,10 +93,57 @@ impl GameState {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-//
+// Yew State Machine
 //////////////////////////////////////////////////////////////////////////////
 
+type Model = GameState;
+
+#[derive(Debug)]
+enum Msg {
+    Nil,
+}
+
+impl Component for Model {
+    type Message = Msg;
+    type Properties = ();
+
+    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
+        Self::new()
+    }
+
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            _ => true,
+        }
+    }
+}
+
+impl Renderable<Model> for Model {
+    fn view(&self) -> Html<Self> {
+        for col in 0..3 {
+            for row in 0..3 {
+                match self.board.values[col][row] {
+                    Some(Player::X) => {
+                        unimplemented!();
+                    }
+                    Some(Player::O) => {
+                        unimplemented!();
+                    }
+                    _ => {
+                        unimplemented!();
+                    }
+                }
+            }
+        }
+
+        unimplemented!();
+    }
+}
+
 fn main() {
+    yew::start_app::<Model>();
+
+    /*
     let mut game = GameState::new();
 
     let game_result = loop {
@@ -104,6 +154,7 @@ fn main() {
             game_result => break game_result,
         }
     };
+    */
 
     unimplemented!();
 }
@@ -120,10 +171,10 @@ mod tests {
     fn test_fast_win_for_x() {
         let mut game = GameState::new();
         let plays = [
-            (0, 0),             // X
-                    (1, 0),     // O
+            (0, 0), // X
+            (1, 0), // O
             (0, 1),
-                    (1, 1),
+            (1, 1),
             (0, 2),
         ];
 
@@ -142,12 +193,12 @@ mod tests {
     fn test_fast_win_for_o() {
         let mut game = GameState::new();
         let plays = [
-            (0, 0),             // X
-                    (1, 0),     // O
+            (0, 0), // X
+            (1, 0), // O
             (0, 1),
-                    (1, 1),
+            (1, 1),
             (2, 2),
-                    (1, 2),
+            (1, 2),
         ];
 
         //  X   O   .
@@ -166,14 +217,14 @@ mod tests {
     fn test_draw() {
         let mut game = GameState::new();
         let plays = [
-            (0, 0),             // X
-                    (1, 0),     // O
+            (0, 0), // X
+            (1, 0), // O
             (2, 0),
-                    (2, 1),
+            (2, 1),
             (0, 1),
-                    (0, 2),
+            (0, 2),
             (1, 1),
-                    (2, 2),
+            (2, 2),
             (1, 2),
         ];
 
@@ -196,14 +247,14 @@ mod tests {
     fn test_invalid_plays_ending_in_win_for_x() {
         let mut game = GameState::new();
         let plays = [
-            (3, 0),             // X
+            (3, 0), // X
             (0, 3),
             (0, 0),
-                    (1, 0),     // O
+            (1, 0), // O
             (1, 0),
             (0, 0),
             (0, 1),
-                    (1, 1),
+            (1, 1),
             (0, 2),
         ];
 
@@ -226,16 +277,16 @@ mod tests {
     fn test_invalid_plays_ending_in_win_for_o() {
         let mut game = GameState::new();
         let plays = [
-            (0, 0),             // X
-                    (3, 0),     // O
-                    (0, 3),
-                    (1, 0),
+            (0, 0), // X
+            (3, 0), // O
+            (0, 3),
+            (1, 0),
             (0, 1),
-                    (0, 1),
-                    (1, 0),
-                    (1, 1),
+            (0, 1),
+            (1, 0),
+            (1, 1),
             (2, 2),
-                    (1, 2),
+            (1, 2),
         ];
 
         //  X   O   .
@@ -258,22 +309,22 @@ mod tests {
     fn test_invalid_plays_ending_in_draw() {
         let mut game = GameState::new();
         let plays = [
-            (3, 3),             // X
+            (3, 3), // X
             (0, 0),
-                    (0, 0),     // O
-                    (1, 0),
+            (0, 0), // O
+            (1, 0),
             (0, 0),
             (2, 0),
-                    (1, 0),
-                    (2, 1),
+            (1, 0),
+            (2, 1),
             (2, 1),
             (0, 1),
-                    (2, 0),
-                    (0, 2),
+            (2, 0),
+            (0, 2),
             (0, 1),
             (1, 1),
-                    (2, 1),
-                    (2, 2),
+            (2, 1),
+            (2, 2),
             (1, 1),
             (1, 2),
         ];
