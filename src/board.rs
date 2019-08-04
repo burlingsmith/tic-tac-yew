@@ -31,11 +31,6 @@ impl Board {
         }
     }
 
-    /// Create a new 3x3 grid with a given set of values.
-    pub(crate) fn from_array(values: [[Option<Player>; 3]; 3]) -> Self {
-        Self { values: values }
-    }
-
     //////////////////////////////////
     // Evaluation
     //////////////////////////////////
@@ -125,6 +120,10 @@ impl Board {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn from_array(values: [[Option<Player>; 3]; 3]) -> Self {
+        Self { values: values }
+    }
 
     #[test]
     fn test_new_board() {
