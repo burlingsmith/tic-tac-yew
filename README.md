@@ -4,7 +4,7 @@ Tic-tac-toe, implemented in Rust.
 ## About
 This project is just some personal practice with the following:
 - [DenisKolodin's Yew framework](https://github.com/DenisKolodin/yew)
-- [TensorFlow Rust](https://github.com/tensorflow/rust)
+- [TensorFlow](https://www.tensorflow.org)
 - [Strict TDD](https://www.codecademy.com/articles/tdd-red-green-refactor)
 
 ## License
