@@ -1,9 +1,12 @@
 # Tic-Tac-Yew
 Tic-tac-toe, implemented in Rust.
 
-## About
-This project is just some personal practice with 
+## Info
+This project is just some personal practice with
 [DenisKolodin's Yew framework](https://github.com/DenisKolodin/yew).
+
+To play, run `cargo web build` and `cargo web start` in the repository root,
+then go to `localhost:8000` in your browser.
 
 ## License
 Dual-licensed to be compatible with the Rust project.
