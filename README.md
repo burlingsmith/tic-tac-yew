@@ -2,10 +2,8 @@
 Tic-tac-toe, implemented in Rust.
 
 ## About
-This project is just some personal practice with the following:
-- [DenisKolodin's Yew framework](https://github.com/DenisKolodin/yew)
-- [Strict TDD](https://www.codecademy.com/articles/tdd-red-green-refactor)
-- [TensorFlow](https://www.tensorflow.org)
+This project is just some personal practice with 
+[DenisKolodin's Yew framework](https://github.com/DenisKolodin/yew).
 
 ## License
 Dual-licensed to be compatible with the Rust project.
